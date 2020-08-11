@@ -1,0 +1,68 @@
+{{!-- <h4>Add Category</h4> --}}
+{{#section 'js'}}
+
+<script src="/js/jquery/jquery.datetimepicker.full.min.js"></script>
+<script src="/js/jquery/jquery.validate.min.js"></script>
+<script src="/js/moment.min.js"></script>
+
+<script src="/mfunctions/functions.js"></script>
+
+{{/section}}
+
+<form id="subcategoryForm" action="" method="POST">
+    <div class="card shadow">
+        <h5 class="card-header">
+            SubCategory
+        </h5>
+        <div class="card-body">
+
+            <label>Category: </label>
+            <select name="chooseCat" class="custom-select">
+                <option value="" selected>Choose Category</option>
+                {{#each categories}}
+                <option value={{id}} {{#if isSelected}}selected{{/if}}>{{id}} - {{name}}</option>
+                {{/each}}
+                {{#if condition}}{{/if}}
+            </select>
+            <hr />
+            <div class="form-group">
+                <label for="txtCatName">Name: </label>
+                <input type="text" class="form-control" id="title" onkeyup="ChangeToSlug();" name="subname" value="{{ this.subCategory.name }}">
+            </div>
+            <div class="form-group">
+                <label for="txtCatName">Slug Name: </label>
+                <input type="text" class="form-control" id="slug" name="slug_name" value="{{ this.subCategory.slug_name }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Status</label> 
+                <select name="is_delete" class="form-control">
+                    <option value="0">0</option>
+                    <option value="1" {{#if this.subCategory.is_delete }}selected{{/if}} >1</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="card-footer text-right">
+            {{#if is_sesuccessful}}
+            <label class="text-success float-left">
+               {{is_sesuccessful_name}}  Thêm thành công
+            </label>
+            {{/if}}
+            {{#if is_failure}}
+            <label class="text-danger float-left">
+                Thêm thất bại
+            </label>
+            {{/if}}
+            <a class="btn btn-outline-primary" href="/managers/subcategories1" role="button" title="Back">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+                List
+            </a>
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-check" aria-hidden="true"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,106 @@
+{{!-- <h4>Add Category</h4> --}}
+{{#section 'js'}}
+<script src="/js/jquery/jquery.datetimepicker.full.min.js"></script>
+<script src="/js/jquery/jquery.validate.min.js"></script>
+<script src="/js/moment.min.js"></script>
+
+<script src="/mfunctions/functions.js"></script>
+
+<script>
+    $(function () {
+        $('#subcategoryForm').validate({
+            onkeyup: false,
+            rules: {
+                tagname: {
+                    required: true,
+                    remote: {
+                        url: '/managers/tag/name-is-available',
+                        data: {
+                            exist_name: function () {
+                                return $('#title').val();
+                            }
+                        }
+                    }
+                },
+
+                {{!-- slug_name: {
+                    required: true,
+                    remote: {
+                        url: '/managers/tag/slug_name-is-available',
+                        data: {
+                            exist_slug_name: function () {
+                                return $('#slug').val();
+                            }
+                        }
+                    }
+                }, --}}
+            },
+
+            messages: {
+                tagname: {
+                    required: 'This field is required.',
+                    remote: 'This name has been taken, please take another.'
+                },
+
+                {{!-- slug_name: {
+                    required: 'This field is required.',
+                    remote: 'This namee has been taken, please take another.'
+                }, --}}
+            },
+
+            errorElement: 'small',
+            errorClass: 'help-block text-danger',
+            validClass: 'is-valid',
+            highlight: function (e) {
+                $(e).removeClass('is-valid').addClass('is-invalid');
+            },
+            unhighlight: function (e) {
+                $(e).removeClass('is-invalid').addClass('is-valid');
+            },
+        });
+
+    })
+
+</script>
+{{/section}}
+
+<form id="subcategoryForm" action="" method="POST">
+    <div class="card shadow">
+        <h5 class="card-header">
+            New Tag
+        </h5>
+        <div class="card-body">
+
+            <div class="form-group">
+                <label for="txtCatName">Tag Name: </label>
+                <input type="text" class="form-control" id="title" name="tagname">
+            </div>
+
+            {{!-- <div class="form-group">
+                <label for="txtCatName">Tag Name: </label>
+                <input type="text" class="form-control" id="title" onkeyup="ChangeToSlug();" name="tagname">
+            </div>
+            <div class="form-group">
+                <label for="txtCatName">Slug Name: </label>
+                <input type="text" class="form-control" id="slug" name="slug_name">
+            </div> --}}
+
+        </div>
+
+        <div class="card-footer text-right">
+            {{#if is_sesuccessful}}
+            <label class="text-success float-left">
+                {{is_sesuccessful_name}} Thêm thành công
+            </label>
+            {{/if}}
+            <a class="btn btn-outline-primary" href="/managers/tags" role="button" title="Back">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+                List
+            </a>
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-check" aria-hidden="true"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

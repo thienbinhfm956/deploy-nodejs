@@ -1,0 +1,92 @@
+<!-- ##### Blog Area Start ##### -->
+<div class="blog-area section-padding-0-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="blog-posts-area">
+
+                    <!-- Single Featured Post -->
+                    <!-- LOAD DATA  -->  
+                    <div class="row">
+                        {{#each post_publish}}
+                        <div class="single-blog-post featured-post col-md-4">
+                            <div class="post-data">
+                                <a href="/posts/menu/{{cat_slugname}}" class="post-catagory">#{{catname}} </h1></a>
+                                {{#if ../is_have_subcategory}}
+                                <a href="/posts/menu/{{cat_slugname}}/{{sub_slugname}}" class="post-catagory">#{{subname}}
+                                    </h1></a>
+                                {{/if}}
+                                <div class="post-thumb">
+                                    <a href="/users/read/{{id}}/{{slug_title}}"><img src="/img/uploads/{{photo}}" alt="" class="w-100 h-img"></a>
+                                </div>
+                                <a href="/users/read/{{id}}/{{slug_title}}" class="post-title">
+                                    <h6 class="fix_name">{{title}}</h6>
+                                </a>
+                                <div class="post-meta">
+                                    <p class="post-author">By: <a href="#">{{pseudonym}}</a> | {{post_date}}</p>
+                                    <p class="post-excerp">{{summary}}</p>
+                                    <div class="align-items-center">
+                                        <!-- Views -->
+                                        <a href="#">
+                                            <i class="fa fa-eye mx-1" aria-hidden="true"> <strong class="mx-1"> {{views}} </strong>
+                                            </i>
+                                        </a>
+
+                                    </div>
+
+                                    <!-- Tags -->
+                                    <div class=" align-items-center fix-tag">
+                                        <strong>Tags: </strong>
+                                        {{#each ../post_tags}}
+                                        {{#eq ../id id_post}}
+                                        <a href="/posts/tag/{{tagname}}" class="btn btn-outline-success btn-sm mx-1 my-1">
+                                            <span>{{tagname}}</span></a>
+                                        {{/eq}}
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+                        </div>
+                        {{/each}}
+                    </div>            
+                    
+
+                </div>
+
+                {{!-- <nav aria-label="Page navigation example">
+                    <ul class="pagination mt-50">
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">10</a></li>
+                    </ul>
+                </nav> --}}
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination mt-50">
+                        {{#each this.page_numbers}}
+                        {{#if active}}
+                        {{!-- <li class="page-item active"><a class="page-link" href="#">(current)</a></li> --}}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">
+                                {{value}}
+                                <span class="sr-only">(current)</span>
+                            </span>
+                        </li>
+                        {{else}}
+                        <li class="page-item"><a class="page-link" href="?page={{value}}">{{value}}</a></li>
+                        {{/if}}
+                        {{/each}}
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Blog Area End ##### -->

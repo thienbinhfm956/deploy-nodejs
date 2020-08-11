@@ -1,0 +1,130 @@
+{{!-- <h4>Add Category</h4> --}}
+{{#section 'js'}}
+
+<script src="/js/jquery/jquery.datetimepicker.full.min.js"></script>
+<script src="/js/jquery/jquery.validate.min.js"></script>
+<script src="/js/moment.min.js"></script>
+
+<script src="/mfunctions/functions.js"></script>
+
+{{!-- <script>
+    $(".dropdown-menu li a").click(function () {
+        var selText = $(this).text();
+        $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+    });
+</script> --}}
+
+<script>
+    $(function () {
+        $('#subcategoryForm').validate({
+            onkeyup: false,
+            rules: {
+                subname: {
+                    required: true,
+                    remote: {
+                        url: '/managers/subcategory1/subname-is-available',
+                        data: {
+                            exist_subname: function () {
+                                return $('#title').val();
+                            }
+                        }
+                    }
+                },
+
+                slug_name: {
+                    required: true,
+                    remote: {
+                        url: '/managers/subcategory1/slug_name-is-available',
+                        data: {
+                            exist_slug_name: function () {
+                                return $('#slug').val();
+                            }
+                        }
+                    }
+                },
+
+                chooseCat: {
+                     required: true,
+                }
+            },
+
+            messages: {
+                subname: {
+                    required: 'This field is required.',
+                    remote: 'This name has been taken, please take another.'
+                },
+
+                slug_name: {
+                    required: 'This field is required.',
+                    remote: 'This namee has been taken, please take another.'
+                },
+
+                chooseCat:{
+                     required: 'Select one category',
+                }
+            },
+
+            errorElement: 'small',
+            errorClass: 'help-block text-danger',
+            validClass: 'is-valid',
+            highlight: function (e) {
+                $(e).removeClass('is-valid').addClass('is-invalid');
+            },
+            unhighlight: function (e) {
+                $(e).removeClass('is-invalid').addClass('is-valid');
+            },
+        });
+
+    })
+
+</script>
+
+{{/section}}
+
+<form id="subcategoryForm" action="" method="POST" name="PostName">
+    <div class="card shadow">
+        <h5 class="card-header">
+            New SubCategory
+        </h5>
+        <div class="card-body">
+
+            <label>Category: </label>
+            <select name="chooseCat" class="custom-select">
+                <option value="" selected>Choose Category</option>
+                {{#each categories}}
+                <option value={{id}}>{{id}} - {{name}}</option>
+                {{/each}}
+            </select>
+            <hr />
+            <div class="form-group">
+                <label for="txtCatName">Name: </label>
+                <input type="text" class="form-control" id="title" onkeyup="ChangeToSlug();" name="subname">
+            </div>
+            <div class="form-group">
+                <label for="txtCatName">Slug Name: </label>
+                <input type="text" class="form-control" id="slug" name="slug_name">
+            </div>
+        </div>
+
+        <div class="card-footer text-right">
+            {{#if is_sesuccessful}}
+            <label class="text-success float-left">
+               {{is_sesuccessful_name}}  Thêm thành công
+            </label>
+            {{/if}}
+            {{#if is_failure}}
+            <label class="text-danger float-left">
+                Thêm thất bại
+            </label>
+            {{/if}}
+            <a class="btn btn-outline-primary" href="/managers/subcategories1" role="button" title="Back">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+                List
+            </a>
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-check" aria-hidden="true"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,122 @@
+{{#section 'css'}}
+
+<link href="/css/fileinput.min.css" rel="stylesheet" type="text/css">
+
+{{/section}}
+
+{{#section 'js'}}
+<script src="/plugins/tinymce/js/tinymce/tinymce.min.js"></script>
+<script src="/plugins/tinymce/js/tinymce/themes/silver/theme.min.js"></script>
+<script src="/js/wysiwyg/fileinput.min.js"></script>
+
+<script src="/mfunctions/functions.js"></script>
+<script>
+    $(function () {
+
+        $('#fuMain').fileinput({
+            theme: 'fa',
+            dropZoneEnabled: false,
+            allowedFileExtensions: ['png', 'jpg', 'gif'],
+            uploadClass: 'btn btn-success',
+            uploadUrl: '/upload',
+            uploadAsync: false,
+        });
+
+        tinymce.init({
+            selector: "#content",
+            menubar: false,
+            height: 600,
+            plugins: 'paste image link autolink lists table media',
+            toolbar: [
+                'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright',
+                'forecolor backcolor',
+                'table link image media',
+                // 'paste'
+            ],
+            image_caption: true,
+            entity_encoding: "raw",
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save();
+                });
+            }
+        });
+    })
+</script>
+
+{{/section}}
+{{#with this.post}}
+<form action="" method="POST">
+    <div class="card shadow">
+        <h5 class="card-header">
+            Edit Post
+        </h5>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <div class="">
+                    <input id="title" value="{{title}}" name="title" required class="form-control" onkeyup="ChangeToSlug();" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="title">Slug</label>
+                <div class="">
+                    <input id="slug" value="{{slug_title}}" required name="slug" class="form-control" type="text">
+                </div>
+    {{/with}}
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" class="form-control">
+                    <option value="0">--</option>
+                    {{#each this.category}}
+                    <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>{{#with this.post}}
+            <div class="card">
+                <div class="card-header">
+                    Tag
+                </div>
+                <div class="">
+                    <div class="card-body">
+                        <div>
+                            <a class="btn btn-primary"><input type="checkbox" name="tagKT" >Kinh Tế</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagCT" >Chính Trị</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagXH" >Xã Hội</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagTG" >Thế Giới</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagVT" >Vũ Trụ</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagCN" >Công Nghệ</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagDA" >Điện Ảnh</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagPL" >Pháp Luật</a>&nbsp;
+                            <a class="btn btn-primary"><input type="checkbox" name="tagGD" >Giáo Dục</a>&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="summary">Summary</label>
+                <div class="">
+                    <textarea id="summary" name="summary"  required class="form-control" type="text">{{summary}}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea class="form-control" id="content" required name="content">{{content}}</textarea>
+            </div>
+        </div>
+        {{/with}}
+        {{!-- {{#if isAuthenticated}}
+          <input type="hidden" name="writer_id" value="{{authUser.id}}">
+        {{/if}} --}}
+        <div class="card-footer text-right">
+            <button type="submit" class="btn btn-success btn-block">
+                <i class="fa fa-check" aria-hidden="true"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>
+
+
